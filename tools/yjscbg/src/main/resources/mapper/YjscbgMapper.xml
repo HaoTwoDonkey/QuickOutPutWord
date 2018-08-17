@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.servyou.yjscbg.mappers.daup.YjScbgMapper">
+    <resultMap id="YjscbgTemplate" type="cn.com.servyou.yjscbg.pojo.DocTemplate">
+        <id column="MBDM" property="mbdm"/>
+        <result column="MBMC" property="mbmc"/>
+        <result column="MBLJ" property="mblj"/>
+        <result column="MBLB" property="mblb"/>
+        <result column="HAVEIMG" property="haveImg"/>
+        <result column="MBPZDM" property="mbpzdm"/>
+        <result column="MBBEAN" property="mbbean"/>
+        <result column="YBZX" property="ybzx"/>
+        <collection property="configs" ofType="cn.com.servyou.yjscbg.pojo.DocTemplateConfig">
+            <id column="MBPZDM" property="mbpzdm"/>
+            <id column="PZXDM" property="pzxdm"/>
+            <result column="PZXMC" property="pzxmc"/>
+            <result column="NAMESPACE" property="namespace"/>
+            <result column="SELECTKEY" property="selectkey"/>
+            <result column="SJYMC" property="sjyname"/>
+            <result column="JGJCODE" property="jgjcode"/>
+            <result column="JGJDYDDM" property="morecode"/>
+            <result column="PZXLX" property="type"/>
+            <result column="JGJLX" property="jgjlx"/>
+        </collection>
+    </resultMap>
+
+    <select id="queryTemplate" parameterType="java.util.Map" resultMap="YjscbgTemplate">
+        select T.*,
+        T1.MBPZDM,
+        T1.PZXDM,
+        T1.PZXMC,
+        T1.PZXMS,
+        T1.NAMESPACE,
+        T1.SELECTKEY,
+        T1.SJYMC,
+        T1.JGJCODE,
+        T1.JGJDYDDM,
+        T1.PZXLX,
+        T1.JGJLX
+        from YJSCBG_TEMPLATE T,YJSCBG_MBPZB T1
+        where T.MBPZDM = T1.MBPZDM(+)
+        <if test="MBDM != null and MBDM != ''">
+            and t.MBDM = '${MBDM}'
+        </if>
+        <if test="MBLB != null and MBLB != ''">
+            and t.MBLB = '${MBLB}'
+        </if>
+    </select>
+
+    <insert id="savedoc" parameterType="java.util.Map">
+        <selectKey keyProperty="primaryKey" order="BEFORE" resultType="java.lang.String">
+            select sys_guid() from dual
+        </selectKey>
+        INSERT INTO YJSCBG_BGXXB
+        (BGXH, BGMC, BGMBDM, BGBCDZ, BGSCSJ, SCBGJG, SCBGRYDM, YXBZ, BGSCZT)
+        VALUES
+        ('${primaryKey}', '${docName}', '${MBDM}', '${docPath}', sysdate, '${swjgdm}', '${swrydm}', 'Y', '${BGSCZT}')
+    </insert>
+
+    <update id="updateDocZt" parameterType="java.util.Map">
+        UPDATE YJSCBG_BGXXB T SET T.BGSCZT = '${BGSCZT}', T.BGBCDZ = '${docPath}', T.BGMC = '${docName}'
+        WHERE T.BGXH = '${primaryKey}'
+    </update>
+
+    <select id="getDelList" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT BGBCDZ,BGMC
+        FROM YJSCBG_BGXXB T
+        WHERE T.BGSCSJ &lt; DATE '${JZRQ}'
+        AND T.BGSCZT = '1'
+    </select>
+
+    <delete id="deleteDoc" parameterType="java.util.Map">
+        DELETE
+        FROM YJSCBG_BGXXB T
+        WHERE T.BGSCSJ &lt; DATE '${JZRQ}'
+        AND T.BGSCZT = '1'
+    </delete>
+
+    <select id="getDocByBgxh" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT BGBCDZ
+        FROM YJSCBG_BGXXB T
+        WHERE T.BGXH = '${BGXH}'
+    </select>
+</mapper>

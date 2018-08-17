@@ -1,0 +1,88 @@
+<html>
+
+<head>
+    <meta charset="GBK" />
+    <meta http-equiv="content-type" content="text/html; charset=GBK" />
+    <script src="/daie/scripts/jquery/jquery.js"></script>
+    <script src="/tools/yjscbg/scripts/echarts-3.2.2.js"></script>
+</head>
+
+<body>
+<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div id="barChart" style="height:400px;width:550px"></div>
+<script>
+      var barChart = null;
+      $(function() {
+        // 基于准备好的dom，初始化echarts实例
+        barChart = echarts.init(document.getElementById('barChart'));
+      });
+
+      function showImg() {
+        var option = {
+
+          legend: {
+            data: ['收入总额', '利润总额', '收入增长率', '利润增长率']
+          },
+          xAxis: [{
+            type: 'category',
+            data: ['2015年', '2016年', '2017年'],
+            axisPointer: {
+              type: 'shadow'
+            }
+          }],
+          yAxis: [{
+            type: 'value',
+            name: '金额',
+            min: 0,
+            max: 300,
+            interval: 50,
+            axisLabel: {
+              formatter: '{value} 万元'
+            }
+          },
+          {
+            type: 'value',
+            name: '百分比',
+            min: 0,
+            max: 20,
+            interval: 5,
+            axisLabel: {
+              formatter: '{value} %'
+            }
+          }],
+          series: [{
+            name: '收入总额',
+            type: 'bar',
+            data: [7088880.09, 10700108.95, 5288.29]
+          },
+          {
+            name: '利润总额',
+            type: 'bar',
+            data: [863185.89, 223679.99, -553.49]
+          },
+          {
+            name: '收入增长率',
+            type: 'line',
+            animation : false,
+            yAxisIndex: 1,
+            data: [7.76, 50.94, -99.95]
+          },
+          {
+            name: '利润增长率',
+            type: 'line',
+            animation : false,  // 取消动画
+            yAxisIndex: 1,
+            data: [5.1, 11, 13.8]
+          }]
+        };
+        barChart.setOption(option);
+      }
+
+      function returnEchartImg(echartObj) {
+        return echartObj.getDataURL();
+      }
+
+</script>
+</body>
+
+</html>
