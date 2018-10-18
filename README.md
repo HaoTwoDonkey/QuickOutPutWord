@@ -6,3 +6,4 @@
 * 支持word2003,2007版
 * word支持图形
 * phantomjs
+* freemarker
