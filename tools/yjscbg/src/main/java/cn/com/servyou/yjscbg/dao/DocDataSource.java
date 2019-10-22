@@ -1,7 +1,7 @@
-package cn.com.servyou.yjscbg.dao;
+package cn.com..yjscbg.dao;
 
 
-import cn.com.servyou.yjscbg.pojo.DocTemplateConfig;
+import cn.com..yjscbg.pojo.DocTemplateConfig;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author : hao
  * @project : daieweb
- * @description : Ò»¼üÉú³É±¨¸æÊı¾İÔ´½Ó¿Ú ºóĞøÀ©Õ¹Ö±½ÓÊµÏÖ´Ë½Ó¿Ú¼´¿É
+ * @description : ä¸€é”®ç”ŸæˆæŠ¥å‘Šæ•°æ®æºæ¥å£ åç»­æ‰©å±•ç›´æ¥å®ç°æ­¤æ¥å£å³å¯
  * @time : 2018/8/9 12:38
  */
 public interface DocDataSource<T> {
